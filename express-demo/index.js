@@ -6,6 +6,9 @@ const logger = require('./logger');
 const startupDebugger = require('debug')('app : startup');
 const dbDebugger = require('debug')('app : db');
 
+//app.set('view engine', 'pug');
+//app.set('views','./views'); //default;
+
 const app = express();
 app.use(express.json());
 app.use (logger);
@@ -25,6 +28,7 @@ const courses = [
 
 app.get('/', (req,res) => {
     res.send('Hello World!!!');
+    //res.render('index', {title : 'my express app', message : 'Hello' });
 })
 
 app.get('/api/courses', (req,res) => {
