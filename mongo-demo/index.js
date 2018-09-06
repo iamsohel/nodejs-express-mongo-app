@@ -4,7 +4,7 @@ mongoose.connect('mongodb://localhost/playground')
 .then( () => console.log('Connected to Mongodb.'))
 .catch(err => console.error('Could not connected to mongodb',err));
 
-const courseSchema = new mongoose.Schema(
+const CourseSchema = new mongoose.Schema(
     {
         name : String,
         author : String,
@@ -13,3 +13,33 @@ const courseSchema = new mongoose.Schema(
         isPublished : Boolean
     }
 );
+
+
+async function createCourse(){
+    const Course = mongoose.model('Course', CourseSchema); 
+    const course = new Course({
+    name : 'Angular course',
+    author : 'Sohel Rana',
+    tags: ['node', 'frontend3'],
+    isPublished : true
+});
+
+const result = await course.save();
+console.log(result);
+
+}
+
+//createCourse();
+
+async function getCourses(){
+    // eq
+    // neq
+    //gt(greater than)
+    const courses = await Course.find();
+    //.find({price : 10});
+    //.find({price : {$th:10, $lt:20}})// course between 10 and 20 dollar
+    //.find({price : {$in : [10, 15, 20]}}); // find course 10, or 15 or 20
+    console.log(courses);
+}
+
+getCourses();
