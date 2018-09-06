@@ -29,17 +29,19 @@ console.log(result);
 
 }
 
-//createCourse();
+createCourse();
+
+const Course = mongoose.model('Course', CourseSchema); 
 
 async function getCourses(){
     // eq
     // neq
     //gt(greater than)
-    const courses = await Course.find();
+    //const courses = await Course.find();
     //.find({price : 10});
     //.find({price : {$th:10, $lt:20}})// course between 10 and 20 dollar
     //.find({price : {$in : [10, 15, 20]}}); // find course 10, or 15 or 20
+    const courses = await Course.find();
     console.log(courses);
 }
-
 getCourses();
