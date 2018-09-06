@@ -6,12 +6,20 @@ mongoose.connect('mongodb://localhost/mongo-exercises')
 
 const courseSchema = new mongoose.Schema(
     {
-        name : String,
+        name : {type : String, required : true, minlength:5,maxlength: 50}, // built in validation
         author : String,
-        price : Number,
-        tags : [String],
+        category : {type : String, required : true, enum : ['mobile', 'web', 'network']},
+        tags : {type : Array, validate : { // custom validation
+            validator : function(value){
+                return value && value.length > 0;
+            },
+            message: 'A Course should have at least one tag.'
+        }},
         date : {type : Date, default: Date.now},
-        isPublished : Boolean
+        isPublished : Boolean,
+        price : {type :Number , required : function(){ // price is required is isPublished is true;
+            return this.isPublished;
+        }},
     }
 );
 
@@ -21,12 +29,18 @@ async function createCourse(){
     const course = new Course({
     name : 'Angular course',
     author : 'Sohel Rana',
-    tags: ['node', 'frontend3'],
-    isPublished : true
+    //tags: ['node', 'frontend3'],
+    isPublished : true,
+    price : 15,
+    category : 'mobile'
 });
-
-const result = await course.save();
-console.log(result);
+    try{
+        const result = await course.save();
+        console.log(result);
+    } catch(ex){
+        console.log(ex.message);
+    }
+   
 
 }
 
@@ -78,4 +92,5 @@ async function deleteCourse(id){
     console.log(result);
 }
 
-deleteCourse('5a68fdc3615eda645bc6bdec');
+//deleteCourse('5a68ff090c553064a218a547');
+createCourse();
