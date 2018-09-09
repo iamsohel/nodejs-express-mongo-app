@@ -4,6 +4,8 @@ const customers = require('./routes/customers');
 const movies = require('./routes/movies');
 const rentals = require('./routes/rentals');
 const express = require('express');
+const mongoose = require('mongoose');
+ Joi.objectId = require('joi-objectid')(Joi);
 const app = express();
 
 mongoose.connect('mongodb://localhost/movie-rent')
