@@ -3,24 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
-const Customer = mongoose.model('Customer', new mongoose.Schema({
-  name : {
-    type : String,
-    required : true,
-    minlength: 5,
-    maxlength : 50
-  },
-  phone : {
-    type : String,
-    required : true,
-    minlength: 5,
-    maxlength : 50
-  },
-  isGold : {
-      type : Boolean,
-      default: false
-  }
-}));
+
 
 
 router.get('/', async (req, res) => {
@@ -69,15 +52,5 @@ router.get('/:id', async (req, res) => {
   if (!customer) return res.status(404).send('The customer with the given ID was not found.');
   res.send(customer);
 });
-
-function validateCustomer(customer) {
-  const schema = {
-    name: Joi.string().min(5).max(50).required(),
-    phone: Joi.string().min(5).max(50).required(),
-    isGold : Joi.boolean()
-  };
-
-  return Joi.validate(customer, schema);
-}
 
 module.exports = router;
