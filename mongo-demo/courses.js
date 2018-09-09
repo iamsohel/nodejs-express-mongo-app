@@ -8,7 +8,7 @@ const courseSchema = new mongoose.Schema(
     {
         name : {type : String, required : true, minlength:5,maxlength: 50}, // built in validation
         author : String,
-        category : {type : String, required : true, enum : ['mobile', 'web', 'network']},
+        category : {type : String, required : true, enum : ['mobile', 'web', 'network'], 'lowercase' : true},
         tags : {type : Array, validate : { // custom validation
             validator : function(value){
                 return value && value.length > 0;
@@ -19,7 +19,8 @@ const courseSchema = new mongoose.Schema(
         isPublished : Boolean,
         price : {type :Number , required : function(){ // price is required is isPublished is true;
             return this.isPublished;
-        }},
+        },   get : v => Math.round(v),
+             set : v => Math.round(v)},
     }
 );
 
@@ -29,16 +30,19 @@ async function createCourse(){
     const course = new Course({
     name : 'Angular course',
     author : 'Sohel Rana',
-    //tags: ['node', 'frontend3'],
+    tags: ['node', 'frontend3'],
     isPublished : true,
     price : 15,
-    category : 'mobile'
+    category : 'Web'
 });
     try{
         const result = await course.save();
         console.log(result);
     } catch(ex){
-        console.log(ex.message);
+        //console.log(ex.message);
+        for(field in ex.errors)
+            console.log(ex.errors[field].message);
+        
     }
    
 
