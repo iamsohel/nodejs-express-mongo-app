@@ -1,9 +1,13 @@
+const EventEmitter = require('events');
 
 var url = 'http://sohel.com/';
-console.log(__filename);
-console.log(__dirname);
-function log(message){
-    console.log('Message', message);
+
+class Logger extends EventEmitter {
+     log(message){
+        console.log('Message', message);
+        this.emit('messageLogged',{id:3, url : 'http://s.com'});
+    }
 }
 
-module.exports = log;
+
+module.exports = Logger;
